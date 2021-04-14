@@ -1,4 +1,4 @@
-# Blizzle3
+# Blazzle
 
 Step 1
   Clone project
