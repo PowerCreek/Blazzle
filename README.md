@@ -14,6 +14,9 @@ Step 3
   This takes a while. Perhaps a few seconds. It is installing node.js at the obj directory.
   
 Step 4
+  
+  Be sure to remove the Debug config from the project unless you really need it.
+  
   Use the Run/Publish config for Blazoop to install into the blozor working directory, which is
   
   Project: Blazoop
