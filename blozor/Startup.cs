@@ -57,7 +57,6 @@ namespace Blazortron
                 //endpoints.MapBlazorHub();
                 endpoints.MapFallbackToFile("index.html");
             });
-            
         }
         
         public async void ElectronBootstrap()

@@ -10,18 +10,14 @@ namespace Blazoop.Source.NodeContexts
     {
         public ElementContext RootElement { get; init; }
         public IServiceData ServiceData { get; }
-        
-        public NodeBase NodeBase { get; }
     }
     
-    public class RootNode : NodeBase, IRootElement
+    public class RootNode : NodeBase
     {
-        public ElementContext RootElement { get; init; }
+        public override ElementContext RootElement { get; init; }
         public LinkMember Node { get; set; }
         
-        public IServiceData ServiceData { get; }
-        public StyleOperator StyleOperator { get; }
-        public NodeBase NodeBase => this;
+        public override IServiceData ServiceData { get; }
  
         public RootNode(IServiceData serviceData)
         {

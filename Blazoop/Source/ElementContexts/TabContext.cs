@@ -18,7 +18,7 @@ namespace Blazoop.Source.ElementContexts
         public WindowingService WindowingService { get; init; }
         public StyleOperator StyleOperator { get; init; }
         
-        public TabContext(IRootElement nodeBase, TabData tabData) : base($"Tabs{nodeBase.NodeBase.Id}")
+        public TabContext(NodeBase nodeBase, TabData tabData) : base($"Tabs{nodeBase.Id}")
         {
             TabData = tabData;
             
@@ -28,12 +28,16 @@ namespace Blazoop.Source.ElementContexts
 
             cssClass = "window-tab";
             
-            WithAttribute("style", out StyleContext tabsStyle);
-            tabsStyle.WithStyle(StyleOperator, this,
-                ("grid-area", Id));
+            WithAttribute("style", (StyleContext tabsStyle) =>
+            {
+                tabsStyle.WithStyle(StyleOperator, this,
+                    ("grid-area", Id));
+            });
 
-            WithAttribute("draggable", out AttributeString drag);
-            drag.Value = "true";
+            WithAttribute("draggable", (AttributeString drag) =>
+            {
+                drag.Value = "true";
+            });
 
             PreventDefaults.Add("ondragover");
             PreventDefaults.Add("ondrop");

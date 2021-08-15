@@ -75,15 +75,19 @@ namespace Blazoop.Source.Operations
             int index = 1;
             foreach (var item in WindowRenderOrder.Where(item => item != context))
             {
-                item.WithAttribute("style", out StyleContext styleContext);
-                styleContext.WithStyle(item.StyleOperator, item, 
-                    ("z-index",$"{index++}"));
+                item.WithAttribute("style", (StyleContext styleContext) =>
+                {
+                    styleContext.WithStyle(item.StyleOperator, item, 
+                        ("z-index",$"{index++}"));
+                });
             }
 
             WindowRenderOrder.Add(context);
-            context.WithAttribute("style", out StyleContext styleContext2);
-            styleContext2.WithStyle(context.StyleOperator, context, 
-                ("z-index",$"{index}"));
+            context.WithAttribute("style", (StyleContext styleContext) =>
+            {
+                styleContext.WithStyle(context.StyleOperator, context, 
+                    ("z-index",$"{index}"));
+            });
         }
 
         public TabData CreateTab<T>() where T: TabData, new() => TabService.CreateTab();
@@ -253,13 +257,14 @@ namespace Blazoop.Source.Operations
             
             WindowContext currentWindow = TabService.ObjectTabMap.FirstOrDefault(e=>e.Value==TabDragData.TabGroup).Key as WindowContext;
 
-
             AddTabToWindow(windowContext, TabDragData);
             UpdateTabs(oldGroup);
             UpdateTabs(TabDragData.TabGroup);
 
             windowContext.TabSection.SurrogateReference?.ChangeState();
             currentWindow.TabSection.SurrogateReference?.ChangeState();
+            windowContext.ContentPane.SurrogateReference?.ChangeState();
+            currentWindow.ContentPane.SurrogateReference?.ChangeState();
             
             WindowToFront(windowContext);
             
@@ -307,6 +312,8 @@ namespace Blazoop.Source.Operations
             
             targetWindow.TabSection.SurrogateReference?.ChangeState();
             currentWindow.TabSection.SurrogateReference?.ChangeState();
+            targetWindow.ContentPane.SurrogateReference?.ChangeState();
+            currentWindow.ContentPane.SurrogateReference?.ChangeState();
 
             if (TabService.TabGroupMap[oldGroup].Group.Count is 0) RemoveWindow(currentWindow);
         }

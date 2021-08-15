@@ -19,20 +19,23 @@ namespace Blazoop.Source.ElementContexts
 
         public ElementContext Slider { get; }
 
-        public IRootElement NodeBase { get; }
+        public NodeBase NodeBase { get; }
         public LinkMember SlideMember { get; }
         public Transform SliderTransform { get; }
         public Transform ToolbarTransform { get; }
         
-        public ContainerContext(IRootElement nodeBase) : base($"Container_{nodeBase.NodeBase.Id}_")
+        public ContainerContext(NodeBase nodeBase) : base($"Container_{nodeBase.Id}_")
         {
             cssClass = "window-container";
             
             NodeBase = nodeBase;
             Add("node", ElementNode = new LinkMember(this));
 
-            WithAttribute("draggable", out AttributeString drag);
-            drag.Value = "false";
+
+            WithAttribute("draggable", (AttributeString drag) =>
+            {
+                drag.Value = "false";
+            });
             
             WindowingService = nodeBase.ServiceData.OperationManager.GetOperation<WindowingService>();
             WindowingService.ContainerContext = this;
@@ -40,39 +43,48 @@ namespace Blazoop.Source.ElementContexts
             
             int ToolbarHeight = 40;
             
-            WithAttribute("style", out StyleContext styleContext);
-            styleContext.WithStyle(StyleOperator, this,
-                ("grid-template-rows", "40px auto"));
+            ToolbarTransform = new Transform();
+            SliderTransform = new Transform();
+            
+            WithAttribute("style", (StyleContext styleContext) =>
+            {
+                styleContext.WithStyle(StyleOperator, this,
+                    ("grid-template-rows", "40px auto")); 
+                
+                ToolbarTransform.OnResize = (transform, size) =>
+                {
+                    styleContext.WithStyle(StyleOperator, this,
+                        ("grid-template-rows", $"{ToolbarHeight}px auto"));
+                };
+            });
 
             var Toolbar = new ViewDropdownContext(nodeBase);
             ElementNode.Add(Toolbar.ElementNode);
             
             Slider = new ElementContext("Slider");
-            Slider.WithAttribute("style", out StyleContext sliderStyle);
+            
+            Slider.WithAttribute("style", (StyleContext sliderStyle) =>
+            {
+                SliderTransform.OnMove = (transform1, position) =>
+                {
+                    sliderStyle.WithStyle(StyleOperator, Slider, 
+                        ("margin-top",$"{position.Y+ToolbarHeight}px"),
+                        ("margin-left",$"{position.X}px"));
+                };
+                
+                ToolbarTransform.OnResize = (transform, size) =>
+                {
+                    sliderStyle.WithStyle(StyleOperator, Slider, 
+                        ("margin-top",$"{SliderTransform.Position.Y+ToolbarHeight}px"));
+                };
+            });
+            
             Slider.cssClass = "window-container-slider";
 
             SlideMember = new LinkMember(Slider);
             ElementNode.Add(SlideMember);
             
             WindowingService.CreateUnjoinedWindow();
-            
-            SliderTransform = new Transform();
-            SliderTransform.OnMove = (transform1, position) =>
-            {
-                sliderStyle.WithStyle(StyleOperator, Slider, 
-                    ("margin-top",$"{position.Y+ToolbarHeight}px"),
-                    ("margin-left",$"{position.X}px"));
-            };
-            
-            ToolbarTransform = new Transform();
-            ToolbarTransform.OnResize = (transform, size) =>
-            {
-                styleContext.WithStyle(StyleOperator, this,
-                    ("grid-template-rows", $"{ToolbarHeight}px auto"));
-                
-                sliderStyle.WithStyle(StyleOperator, Slider, 
-                    ("margin-top",$"{SliderTransform.Position.Y+ToolbarHeight}px"));
-            };
 
             ToolbarTransform.Size.Height = ToolbarHeight;
             
@@ -104,12 +116,14 @@ namespace Blazoop.Source.ElementContexts
         
         public void SetCursor(string cursor)
         {
-            WithAttribute("Style", out StyleContext styleContext);
-            styleContext.Valid = true;
-            styleContext.WithStyle(StyleOperator,
-                this,
-                ("cursor", cursor)
-            );
+            WithAttribute("Style", (StyleContext styleContext) =>
+            {
+                styleContext.Valid = true;
+                styleContext.WithStyle(StyleOperator,
+                    this,
+                    ("cursor", cursor)
+                ); 
+            });
         }
     }
 }

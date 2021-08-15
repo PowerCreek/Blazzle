@@ -37,10 +37,12 @@ namespace Blazoop.Source.Operations
                 EmptyLink.Add(menuItem.ElementNode);
             }
             
-            menu.WithAttribute("style", out StyleContext styleContext);
-            styleContext.WithStyle(StyleOp, menu, 
-                ("background-color","none"),
-                ("border","2px solid transparent"));
+            menu.WithAttribute("style", (StyleContext styleContext) =>
+            {
+                styleContext.WithStyle(StyleOp, menu, 
+                    ("background-color","none"),
+                    ("border","2px solid transparent")); 
+            });
             
             menu.SurrogateReference?.ChangeState();
         }
@@ -56,10 +58,12 @@ namespace Blazoop.Source.Operations
                 menuItem.Key = $"show_{menuItem.Id}";
             }
             
-            menu.WithAttribute("style", out StyleContext styleContext);
-            styleContext.WithStyle(StyleOp, menu, 
-                ("background-color","#0a0a0a33"),
-                ("border","2px solid gray"));
+            menu.WithAttribute("style", (StyleContext styleContext) =>
+            {
+                styleContext.WithStyle(StyleOp, menu, 
+                    ("background-color","#0a0a0a33"),
+                    ("border","2px solid gray"));
+            });
             
             menu.SurrogateReference?.ChangeState();
         }
@@ -70,10 +74,12 @@ namespace Blazoop.Source.Operations
         {
             var hold = new MenuPart(id++);
 
-            hold.WithAttribute("style", out StyleContext styleContext);
-            styleContext.WithStyle(styleOp, hold, 
-                ("grid-area",hold.Id)
+            hold.WithAttribute("style", (StyleContext styleContext) =>
+            {
+                styleContext.WithStyle(styleOp, hold, 
+                    ("grid-area",hold.Id)
                 );
+            });
             
             hold.SetHtml(menuLabel);
             Menus.Add(hold);

@@ -1,4 +1,5 @@
 ﻿using System;
+using Blazoop.ExternalDeps.Classes;
 using Blazoop.ExternalDeps.Classes.Management;
 using Blazoop.Source.NodeContexts;
 using Blazoop.Source.Operations;
@@ -13,7 +14,7 @@ namespace Blazoop.Source.ElementContexts
         
         public WindowContext WindowContext { get; set; }
         
-        public TitlebarContext(IRootElement nodeBase) : base($"Title_{nodeBase.NodeBase.Id}_")
+        public TitlebarContext(NodeBase nodeBase) : base($"Title_{nodeBase.Id}_")
         {
             WindowingService = nodeBase.ServiceData.OperationManager.GetOperation<WindowingService>();
             cssClass = "window-titlebar";
@@ -21,11 +22,13 @@ namespace Blazoop.Source.ElementContexts
             StyleOperator = nodeBase.ServiceData.OperationManager.GetOperation<StyleOperator>();
             Add("node", ElementNode = new LinkMember(this));
             
-            WithAttribute("style", out StyleContext titlebarStyle);
-            titlebarStyle.WithStyle(StyleOperator, this, 
-                ("justify-items","end"),
-                ("top","0px"),
-                ("left","0px"));
+            WithAttribute("style", (StyleContext titlebarStyle) =>
+            {
+                titlebarStyle.WithStyle(StyleOperator, this, 
+                    ("justify-items","end"),
+                    ("top","0px"),
+                    ("left","0px"));
+            });
 
             AddEvent("onmousedown", OnMouseDown);
             AddEvent("onmouseup", OnMouseUp);

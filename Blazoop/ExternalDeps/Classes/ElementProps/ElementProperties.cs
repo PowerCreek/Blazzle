@@ -52,6 +52,22 @@ namespace Blazoop.ExternalDeps.Classes.ElementProps
             return this;
         }
 
+        public ElementProperties WithAttribute<T>(string name, Action<T> a) where T : IAttribute
+        {
+            if (AttributeMap.ContainsKey(name))
+            {
+                a((T) AttributeMap[name]);
+            }
+            else
+            {
+                var attr = Activator.CreateInstance<T>();
+                a(attr);
+                AttributeMap.Add(name, attr);
+            }
+            
+            return this;
+        }
+
         public void RemoveAttribute(string name)
         {
             AttributeMap.Remove(name);

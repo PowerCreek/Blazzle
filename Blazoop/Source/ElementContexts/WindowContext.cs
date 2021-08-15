@@ -39,7 +39,7 @@ namespace Blazoop.Source.ElementContexts
         
         public WindowingService WindowingService { get; }
         
-        public WindowContext(IRootElement nodeBase) : base($"Window_{nodeBase.NodeBase.Id}_")
+        public WindowContext(NodeBase nodeBase) : base($"Window_{nodeBase.Id}_")
         {
 
             WindowingService = nodeBase.ServiceData.OperationManager.GetOperation<WindowingService>();
@@ -53,28 +53,30 @@ namespace Blazoop.Source.ElementContexts
 
             cssClass = "window-context";
             
-            WithAttribute("style", out StyleContext styleContext);
-            styleContext.WithStyle(StyleOperator, this, 
-                ("position","absolute"), 
-                ("left",$"{Transform.Position.X}px"),
-                ("top",$"{Transform.Position.Y}px"),
-                ("width",$"{Transform.Size.Width}px"),
-                ("height",$"{Transform.Size.Height}px"),
-                ("border","2px solid black"));
-            
-            Transform.OnMove = (transform, position) =>
+            WithAttribute("style", (StyleContext styleContext) =>
             {
-                styleContext.WithStyle(StyleOperator, this,
-                    ("left", $"{Transform.Position.X}px"),
-                    ("top", $"{Transform.Position.Y}px"));
-            };
+                styleContext.WithStyle(StyleOperator, this, 
+                    ("position","absolute"), 
+                    ("left",$"{Transform.Position.X}px"),
+                    ("top",$"{Transform.Position.Y}px"),
+                    ("width",$"{Transform.Size.Width}px"),
+                    ("height",$"{Transform.Size.Height}px"),
+                    ("border","2px solid black"));
             
-            Transform.OnResize = (transform, size) =>
-            {
-                styleContext.WithStyle(StyleOperator, this,
-                    ("width", $"{Transform.Size.Width}px"),
-                    ("height", $"{Transform.Size.Height}px"));
-            };
+                Transform.OnMove = (transform, position) =>
+                {
+                    styleContext.WithStyle(StyleOperator, this,
+                        ("left", $"{Transform.Position.X}px"),
+                        ("top", $"{Transform.Position.Y}px"));
+                };
+            
+                Transform.OnResize = (transform, size) =>
+                {
+                    styleContext.WithStyle(StyleOperator, this,
+                        ("width", $"{Transform.Size.Width}px"),
+                        ("height", $"{Transform.Size.Height}px"));
+                };
+            });
             
             PreventDefaults.Add("onfocus");
             PreventDefaults.Add("ondragover");
@@ -90,7 +92,7 @@ namespace Blazoop.Source.ElementContexts
             AddEvent("ondragover", a=>{});
         }
 
-        public void InitTitlebar(IRootElement nodeBase)
+        public void InitTitlebar(NodeBase nodeBase)
         {
             Titlebar = new TitlebarContext(nodeBase)
             {
@@ -112,13 +114,13 @@ namespace Blazoop.Source.ElementContexts
             
         }
         
-        public void InitTabSection(IRootElement nodeBase)
+        public void InitTabSection(NodeBase nodeBase)
         {
             TabSection = new TabSectionContext(nodeBase);
             ElementNode.Add(TabSection.ElementNode);
         }
         
-        public void InitContentPane(IRootElement nodeBase)
+        public void InitContentPane(NodeBase nodeBase)
         {
             ContentPane = new ContentPaneContext(nodeBase);
             ElementNode.Add(ContentPane.ElementNode);

@@ -17,7 +17,7 @@ namespace Blazoop.Source.ElementContexts
 
         public ToolbarOperator ToolbarOperator { get; }
         
-        public ViewDropdownContext(IRootElement nodeBase) : base($"ViewBar_{nodeBase.NodeBase.Id}_")
+        public ViewDropdownContext(NodeBase nodeBase) : base($"ViewBar_{nodeBase.Id}_")
         {
             cssClass = "window-container-toolbar";
 
@@ -56,13 +56,15 @@ namespace Blazoop.Source.ElementContexts
                 SetupTabItems(ViewMenu);
             };
             
-            WithAttribute("style", out StyleContext styleContext);
-            styleContext.WithStyle(StyleOperator, this, 
-                ("display","grid"),
-                ("grid-auto-rows", "100%"),
-                ("grid-auto-columns", "minmax(80px, min-content)"),
-                ("align-content","center"),
-                ("grid-template-areas",$"\"{ToolbarOperator.GetJoinedMenus()}\""));
+            WithAttribute("style", (StyleContext styleContext) =>
+            {
+                styleContext.WithStyle(StyleOperator, this, 
+                    ("display","grid"),
+                    ("grid-auto-rows", "100%"),
+                    ("grid-auto-columns", "minmax(80px, min-content)"),
+                    ("align-content","center"),
+                    ("grid-template-areas",$"\"{ToolbarOperator.GetJoinedMenus()}\""));
+            });
         }
 
         public void CreateTabItem(MenuPart menu, TabData tabData)

@@ -6,7 +6,11 @@
     <projectFile>StartProj/StartProj.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c337c65-2c9b-4dd9-ad07-3b57d9392f88" name="Default Changelist" comment="" />
+    <list default="true" id="1c337c65-2c9b-4dd9-ad07-3b57d9392f88" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Blizzle/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Blizzle/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blozor/Startup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/blozor/Startup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blozor/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/blozor/obj/rider.project.restore.info" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,11 +18,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="mock://E:/RiderProjects/ElectronTest/blizzle/Blizzle/Blazoop/Program.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/RiderProjects/ElectronTest/blizzle/Blizzle/Blazoop/Source/Properties/Vector/Vector.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://E:/RiderProjects/ElectronTest/blizzle/Blizzle/Blazoop/Razor/Surrogate.razor" root0="SKIP_HIGHLIGHTING" root1="FORCE_HIGHLIGHTING" root2="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -49,7 +48,7 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.Blazoop">
+  <component name="RunManager" selected=".NET Launch Settings Profile.Blazortron: Electron">
     <configuration name="Blozor" type="DotNetFolderPublish" factoryName="Publish to folder" temporary="true">
       <riderPublish runtime="win-x64" self_contained="true" target_folder="$PROJECT_DIR$/publish/bltron" target_framework="net5.0" uuid_high="-5477944484984238802" uuid_low="-6691624102656082835" />
       <method v="2" />
@@ -136,6 +135,12 @@
       <workItem from="1618381307386" duration="1366000" />
       <workItem from="1618383012965" duration="11955000" />
       <workItem from="1618399263936" duration="1212000" />
+      <workItem from="1618400500957" duration="712000" />
+      <workItem from="1618434841998" duration="9231000" />
+      <workItem from="1618562848091" duration="1985000" />
+      <workItem from="1618764044363" duration="615000" />
+      <workItem from="1621367059464" duration="1718000" />
+      <workItem from="1621885711809" duration="432000" />
     </task>
     <task id="LOCAL-00001" summary=".">
       <created>1618400423204</created>

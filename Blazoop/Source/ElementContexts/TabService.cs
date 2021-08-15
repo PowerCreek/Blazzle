@@ -76,10 +76,12 @@ namespace Blazoop.Source.ElementContexts
         {
             if (tab.TabContext?.ElementNode.Parent?.Value is TabSectionContext section)
             {
-                section.WithAttribute("style", out StyleContext sectionStyle);
-                string areas = string.Join(" ", TabGroupMap[tab.TabGroup].Group.Select(e=>e.TabContext.Id));
-                sectionStyle.WithStyle(section.StyleOperator, section,
-                    ("grid-template-areas", $"\"{areas}\""));
+                section.WithAttribute("style", (StyleContext sectionStyle) =>
+                {
+                    string areas = string.Join(" ", TabGroupMap[tab.TabGroup].Group.Select(e=>e.TabContext.Id));
+                    sectionStyle.WithStyle(section.StyleOperator, section,
+                        ("grid-template-areas", $"\"{areas}\"")); 
+                });
             }
         }
 

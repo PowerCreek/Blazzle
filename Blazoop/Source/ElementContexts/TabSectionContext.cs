@@ -11,25 +11,29 @@ namespace Blazoop.Source.ElementContexts
         public StyleOperator StyleOperator { get; }
         public LinkMember ElementNode { get; }
         
-        public TabSectionContext(IRootElement nodeBase) : base($"Tabs_{nodeBase.NodeBase.Id}_")
+        public TabSectionContext(NodeBase nodeBase) : base($"Tabs_{nodeBase.Id}_")
         {
             StyleOperator = nodeBase.ServiceData.OperationManager.GetOperation<StyleOperator>();
             Add("node", ElementNode = new LinkMember(this));
             
-            WithAttribute("style", out StyleContext tabsStyle);
-            tabsStyle.WithStyle(StyleOperator, this,
-                ("position", "relative"),
-                ("background-color", "orange"),
-                ("place-self", "stretch"),
-                ("display", "grid"),
-                ("grid-auto-columns", "min-content"),
-                ("grid-template-areas", "\"\""),
-                ("overflow", "hidden"),
-                ("grid-auto-flow", "column"),
-                ("user-select", "none"));
+            WithAttribute("style", (StyleContext tabsStyle) =>
+            {
+                tabsStyle.WithStyle(StyleOperator, this,
+                    ("position", "relative"),
+                    ("background-color", "orange"),
+                    ("place-self", "stretch"),
+                    ("display", "grid"),
+                    ("grid-auto-columns", "min-content"),
+                    ("grid-template-areas", "\"\""),
+                    ("overflow", "hidden"),
+                    ("grid-auto-flow", "column"),
+                    ("user-select", "none"));
+            });
             
-            WithAttribute("draggable", out AttributeString drag);
-            drag.Value = "false";
+            WithAttribute("draggable", (AttributeString drag) =>
+            {
+                drag.Value = "false";
+            });
         }
     }
 }
